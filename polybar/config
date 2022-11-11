@@ -1,0 +1,375 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/polybar/polybar
+;
+;   The README contains a lot of information
+;
+;==========================================================
+
+[colors]
+bg = #282828
+bg1 = #3c3836
+
+red = #cc241d
+red-ligth = #fb4934
+
+green = #98971a
+green-ligth = #b8bb26
+
+yellow = #d79921
+yellow-light = #fabd2f
+
+blue = #458588
+blue-light = #83a598
+
+purple = #b16286
+purple-ligth = #d3869b
+
+aqua = #689d6a
+aqua-light = #8ec07c
+
+gray = #a89984
+gray-ligth = #ebdbb2
+
+orange = #d65d0e
+orange-ligth = #fe8019
+
+black = #00000
+
+[bar/work]
+width = 100%
+height = 24
+radius = 0
+offset-x = 8
+offset-y = 5
+fixed-center = true
+monitor = ${env:MONITOR:}
+
+background = ${colors.black}
+foreground = ${colors.gray-ligth}
+
+line-size = 3
+line-color = #f00
+
+border-size = 0
+border-color = ${colors.bg1}
+border-bottom = 2
+
+padding-left = 1
+padding-right = 0
+
+module-margin-left = 0
+module-margin-right = 1
+
+font-0 = "Fira Code Semibold:pixelsize=10;3"
+font-1 = "JetBrainsMono Nerd Font Mono:pixelsize=18:antialias=true;5"
+font-2 = "JetBrainsMono Nerd Font Mono:pixelsize=15:antialias=true;5"
+font-3 = "JetBrainsMono Nerd Font Mono:pixelsize=13:antialias=true;4"
+font-4 = "JetBrainsMono Nerd Font Mono:pixelsize=10:antialias=true;3"
+
+modules-left = i3 traysep monitor bluetooth service
+modules-center = date
+modules-right = memory cpu filesystem network battery pulseaudio date2 power
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+[module/traysep]
+type = custom/text
+
+content = ""
+content-foreground = ${colors.orange-ligth}
+content-font = 3
+click-left = dmenu_run
+
+[module/network]
+type = internal/network
+interface = wlan0
+
+accumulate-stats = true
+unknown-as-up = true
+interval = 5.0
+
+label-disconnected = N/A
+format-connected = <label-connected>
+format-connected-prefix = "直"
+format-connected-prefix-background = ${colors.orange}
+format-connected-prefix-padding = 1
+format-connected-background = ${colors.gray-ligth}
+format-connected-foreground = ${colors.bg}
+format-connected-prefix-font = 1
+label-connected-padding = 1
+
+label-connected = %downspeed:0:8%
+format-disconnected = <label-disconnected>
+format-disconnected-prefix = "睊"
+format-disconnected-prefix-background = ${colors.orange}
+format-disconnected-prefix-padding = 1
+format-disconnected-background = ${colors.gray-ligth}
+format-disconnected-foreground = ${colors.bg}
+format-disconnected-prefix-font = 1
+label-disconnected-padding = 1
+
+
+[module/filesystem]
+type = internal/fs
+
+mount-0 = /
+interval = 120
+
+format-mounted-prefix = 
+format-mounted-prefix-font = 1
+format-mounted-prefix-background = ${colors.yellow}
+format-mounted-prefix-padding = 1
+
+format-mounted-background = ${colors.gray-ligth}
+format-mounted-foreground = ${colors.bg}
+
+label-mounted-font = 0
+label-mounted-padding = 1
+
+label-mounted = %free:0:3%G
+
+[module/xwindow]
+type = internal/xwindow
+pin-workspaces = true
+
+label-mode-padding = 2
+label-mode-foreground = #000
+label-mode-background = ${colors.red}
+
+format = <label>
+format-padding = 1
+
+label = %title:0:40:...%
+label-font = 0
+label-foreground = ${colors.offwhite}
+
+[module/i3]
+type = internal/i3
+
+pin-workspaces = true
+index-sort = true
+wrapping-scroll = false
+
+label-mode = %index%
+label-mode-padding = 1
+label-mode-foreground = ${colors.bg}
+label-mode-background = ${colors.gray-ligth}
+
+label-focused = %index%
+label-focused-padding = 1
+label-focues-foreground = ${colors.gray-ligth}
+label-focused-background = ${colors.red}
+
+label-unfocused = %index%
+label-unfocused-padding = 1
+label-unfocused-foreground = ${colors.bg}
+label-unfocused-background = ${colors.gray-ligth}
+
+label-visible = %index%
+label-visible-padding = 1
+label-visible-foreground = ${colors.gray-ligth}
+label-visible-background = ${colors.red}
+
+
+label-urgent = %index%
+label-urgent-foreground = ${colors.bg}
+label-urgent-background = ${colors.gray-ligth}
+label-urgent-padding = 1
+
+label-separator = " "
+
+[module/date]
+type = internal/date
+interval = 5
+
+label-font = 0
+format-padding = 0
+
+time = %H:%M
+label = %time%
+
+[module/date2]
+type = internal/date
+interval = 120
+
+time = %a %m/%d
+label = %time%
+label-padding = 1
+format-prefix = 
+format-prefix-padding = 1
+format-prefix-font = 1
+format-prefix-background = ${colors.aqua}
+format-background = ${colors.gray-ligth}
+format-foreground = ${colors.bg}
+
+label-font = 0
+
+
+
+[module/pulseaudio]
+type = internal/pulseaudio
+
+format-volume = <label-volume>
+format-volume-prefix = "墳"
+format-volume-prefix-padding = 1
+format-volume-prefix-font = 1
+format-volume-prefix-background = ${colors.green}
+format-volume-background = ${colors.gray-ligth}
+format-volume-foreground = ${colors.bg}
+
+label-volume = %percentage:0:3%%
+label-volume-padding = 1
+label-volume-font = 0
+
+format-muted = <label-muted>
+format-muted-prefix = 婢
+format-muted-prefix-padding = 1
+format-muted-prefix-font = 1
+format-muted-prefix-background = ${colors.green}
+format-muted-background = ${colors.gray-ligth}
+format-muted-foreground = ${colors.bg}
+
+label-muted = "muted"
+label-muted-padding = 1
+label-muted-font = 0
+
+[module/power]
+type = custom/menu
+
+format-spacing = 2
+format-background = ${colors.gray-ligth}
+format-foreground = ${colors.bg}
+format-prefix = " "
+format-prefix-background = ${colors.red}
+
+label-open = "  "
+label-open-foreground = ${colors.red}
+label-close = " cancle"
+
+menu-0-0 = reboot
+menu-0-0-exec = reboot
+menu-0-1 = "off "
+menu-0-1-exec = shutdown -h now
+
+[module/cpu]
+type = internal/cpu
+
+format = <label> 
+format-prefix = 
+format-prefix-padding = 1
+format-prefix-font = 1
+format-prefix-background = ${colors.purple}
+format-background = ${colors.gray-ligth}
+format-foreground = ${colors.bg}
+
+label = %percentage%%
+label-padding = 1
+
+[module/memory]
+type = internal/memory
+
+interval = 3
+
+format = <label>
+format-prefix = 
+format-prefix-padding = 1
+format-prefix-font = 1
+format-prefix-background = ${colors.blue}
+format-background = ${colors.gray-ligth}
+format-foreground = ${colors.bg}
+label = %percentage_used%% 
+label-font = 0
+label-padding = 1
+
+[module/battery]
+type = internal/battery
+
+full-at = 98
+battery = BAT0
+adapter = AC
+poll-interval = 5
+time-format = %H:%M
+
+format-charging = <label-charging>
+format-charging-prefix = ""
+format-charging-prefix-background = ${colors.red}
+format-charging-background = ${colors.gray-ligth}
+format-charging-foreground = ${colors.bg}
+format-charging-prefix-padding = 1
+format-charging-font = 1
+label-charging = %percentage%%
+label-charging-padding = 1
+
+format-discharging = <label-discharging>
+format-discharging-prefix = "%{T4}%{T}"
+format-discharging-prefix-font = 1
+format-discharging-prefix-background = ${colors.red}
+format-discharging-background = ${colors.gray-ligth}
+format-discharging-foreground = ${colors.bg}
+format-discharging-prefix-padding = 1
+label-discharging = %percentage%%
+label-discharging-padding = 1
+
+format-full = <label-full>
+format-full-prefix = 
+format-full-prefix-background = ${colors.red}
+format-full-background = ${colors.gray-ligth}
+format-full-foreground = ${colors.bg}
+format-full-prefix-padding = 1
+format-full-font = 1
+label-full = full
+label-full-padding = 1
+
+[module/monitor]
+type = custom/text
+
+content = "  "
+content-background = ${colors.gray-ligth}
+content-foreground = ${colors.bg}
+content-font = 2
+content-prefix = " "
+content-prefix-font = 4
+content-prefix-background = ${colors.yellow}
+click-left = arandr
+
+[module/bluetooth]
+type = custom/text
+
+content = " %{T4}%{T} "
+content-background = ${colors.gray-ligth}
+content-foreground = ${colors.bg}
+content-font = 5
+content-prefix = " "
+content-prefix-font = 4
+content-prefix-background = ${colors.blue}
+click-left = blueman-manager
+
+[module/service]
+type = custom/script
+exec = ~/.config/polybar/service.sh
+interval = 5
+click-middle = ~/.config/polybar/service.sh toggle &
+click-left =  ~/.config/polybar/service.sh enable &
+click-right = ~/.config/polybar/service.sh disable &
+label = " %output% "
+format-background = ${colors.gray-ligth}
+format-foreground = ${colors.bg}
+format-font = 5
+format-prefix = " "
+format-prefix-font = 4
+format-prefix-background = ${colors.red}
+
+[settings]
+screenchange-reload = true
