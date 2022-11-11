@@ -115,11 +115,13 @@ configure() {
 }
 
 install_sudo() {
+	local user="$1"; shift
 	pacman --noconfirm -S sudo
 	groupadd sudo
 	cat > /etc/sudoers <<EOF
 root ALL=(ALL:ALL) ALL
 %sudo	ALL=(ALL:ALL) ALL
+$user ALL=(ALL) NOPASSWD:ALL
 
 @includedir /etc/sudoers.d
 EOF
