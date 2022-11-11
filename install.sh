@@ -95,7 +95,7 @@ configure() {
 
 	set_hostname "$HOSTNAME"
 
-	install_sudo
+	install_sudo "$USER_NAME"
 
 	echo "Enter the password for user $USER_NAME"
 	stty -echo
@@ -106,11 +106,11 @@ configure() {
 
 	pacman --noconfirm -S git 	
 
-	#install_gvm "$USER_NAME"
+	install_gvm "$USER_NAME"
 
 	install_network_manager
 	install_packages
-  set_i3_config
+	set_i3_config "$USER_NAME"
 
 }
 
@@ -165,6 +165,8 @@ install_bootloader() {
 }
 
 set_i3_config() {
+	local user="$1"; shift
+	
 	mkdir -p ~/.config/i3 ~/.config/i3status ~/.config/polybar ~/.config/terminator
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/i3/config --output ~/.config/i3/config
@@ -179,6 +181,8 @@ set_i3_config() {
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/rofi/config.nasi --output ~/.config/polybar/config.nasi
 	
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/terminator/config --output ~/.config/terminator/config
+	
+	chown -r "${user}:${user}" ~/.config/*
 }
 
 install_packages() {
