@@ -154,7 +154,7 @@ install_yay() {
 	local password="$2"; shift
 
 	pacman --noconfirm -S base-devel
-	su - "$user" -c 'git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si && echo -en "$password\ny\ny\n"'
+	su - "$user" -c 'git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm"'
 
 }
 
