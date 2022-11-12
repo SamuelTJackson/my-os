@@ -295,7 +295,7 @@ install_packages() {
 	set -e
 
 	#General
-	packages+='intel-ucode pulseaudio alsa-utils alsa-plugins pavucontrol terminator scrot polybar neovim google-chrome zsh xclip'
+	packages+='intel-ucode pulseaudio alsa-utils alsa-plugins pavucontrol terminator scrot polybar neovim google-chrome zsh xclip light'
 
 	#i3
 	packages+=' xorg-server xorg-xrandr xorg-xinit i3-gaps i3status rofi i3lock'
