@@ -252,7 +252,7 @@ source $ZSH/oh-my-zsh.sh
 
 
 export EDITOR='nvim'
--my-zsh"
+
 alias ls='ls --color=auto'
 alias audio='pavucontrol'
 alias shutdown='shutdown -h now'
