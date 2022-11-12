@@ -223,7 +223,7 @@ install_packages() {
 	packages+='intel-ucode pulseaudio alsa-utils alsa-plugins pavucontrol terminator scrot polybar neovim google-chrome'
 
 	#i3
-	packages+=' xorg-server xorg-xrandr xorg-xinit i3-gaps i3status rofi'
+	packages+=' xorg-server xorg-xrandr xorg-xinit i3-gaps i3status rofi i3lock'
 
 	#fonts
 	packages+=' noto-fonts-emoji ttf-dejavu'
