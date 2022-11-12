@@ -226,7 +226,7 @@ install_packages() {
 	packages+=' xorg-server xorg-xrandr xorg-xinit i3-gaps i3status rofi'
 
 	#fonts
-	packages+=' ttf-dejavu ttf-freefont ttf-liberation ttf-droid ttf-roboto terminus-font'
+	packages+=' noto-fonts-emoji ttf-dejavu'
 
 
 	yay --noconfirm -S ${packages}
