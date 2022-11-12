@@ -1,6 +1,6 @@
 #!/bin/bash
 
-local service="$1"; shift
+service="$1"; shift
 
 if [ ! "$(nmcli c show --active | grep ${service})" ]; then
 	echo '%{F#000000}'
