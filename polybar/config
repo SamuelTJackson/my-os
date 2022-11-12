@@ -358,11 +358,11 @@ click-left = blueman-manager
 
 [module/service]
 type = custom/script
-exec = ~/.config/polybar/service.sh
+exec = ~/.config/polybar/vpn.sh
 interval = 5
-click-middle = ~/.config/polybar/service.sh toggle &
-click-left =  ~/.config/polybar/service.sh enable &
-click-right = ~/.config/polybar/service.sh disable &
+click-middle = ~/.config/polybar/vpn.sh toggle &
+click-left =  ~/.config/polybar/vpn.sh enable &
+click-right = ~/.config/polybar/vpn.sh disable &
 label = " %output% "
 format-background = ${colors.gray-ligth}
 format-foreground = ${colors.bg}
