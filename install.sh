@@ -228,6 +228,9 @@ set_i3_config() {
 
 add_zsh_config() {
 	local user="$1"; shift
+		
+	su - "$user" -c 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended'
+	
 	cat "/home/${user}/.bashrc" >> "/home/${user}/.zshrc"
 	
 	cat >> "/home/${user}/.zshrc" <<EOF
