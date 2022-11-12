@@ -169,7 +169,7 @@ install_bootloader() {
 set_i3_config() {
 	local user="$1"; shift
 	
-	mkdir -p "/home/${user}/.config/i3" "/home/${user}/.config/i3status" "/home/${user}/.config/polybar" "/home/${user}/.config/terminator" "/home/${user}/.local/share/fonts"
+	mkdir -p "/home/${user}/.config/i3" "/home/${user}/.config/i3status" "/home/${user}/.config/polybar" "/home/${user}/.config/terminator" "/home/${user}/.local/share/fonts" "/home/${user}/.config/nvim/lua/plugins"
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/i3/config --output  "/home/${user}/.config/i3/config"
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/i3/background.png --output  "/home/${user}/.config/i3/background.png"
@@ -204,6 +204,15 @@ set_i3_config() {
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/fonts/MaterialIcons-Regular.ttf --output  "/home/${user}/.local/share/fonts/MaterialIcons-Regular.ttf"
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/fonts/JetBrains%20Mono%20Regular%20Nerd%20Font%20Complete%20Mono.ttf --output  "/home/${user}/.local/share/fonts/JetBrains Mono Regular Nerd Font Complete Mono.ttf"
+	
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/init.lua --output  "/home/${user}/.config/nvim/init.lua"
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/init.lua --output  "/home/${user}/.config/nvim/lua/init.lua"
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/auto-commands.lua --output  "/home/${user}/.config/nvim/lua/auto-commands.lua"
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/key-mappings.lua --output  "/home/${user}/.config/nvim/lua/key-mappings.lua"
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/plugins.lua --output  "/home/${user}/.config/nvim/lua/plugins.lua"
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/settings.lua --output  "/home/${user}/.config/nvim/lua/settings.lua"
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/utils.lua --output  "/home/${user}/.config/nvim/lua/utils.lua"
+
 	
 	chown -R "${user}:${user}" "/home/${user}/.config"
 	chown -R "${user}:${user}" "/home/${user}/.local"
