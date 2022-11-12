@@ -114,6 +114,7 @@ configure() {
 	install_packages
 	set_i3_config "$USER_NAME"
 	add_xinit "$USER_NAME"
+	add_zsh_config "$USER_NAME"
 
 }
 
@@ -225,6 +226,63 @@ set_i3_config() {
 	chown -R "${user}:${user}" "/home/${user}/.local"
 }
 
+add_zsh_config() {
+	local user="$1"; shift
+	cat "/home/${user}/.bashrc" >> "/home/${user}/.zshrc"
+	
+	cat >> "/home/${user}/.zshrc" <<EOF
+export LANG=en_US.UTF-8
+
+export LC_ALL=en_US.UTF-8
+
+# Path to your oh-my-zsh installation.
+export ZSH="/home/${user}/.oh-my-zsh"
+
+ZSH_THEME="gruvbox"
+SOLARIZED_THEME="dark"
+
+plugins=(
+	git
+	docker
+	z
+	zsh-autosuggestions
+)
+
+source $ZSH/oh-my-zsh.sh
+
+
+export EDITOR='nvim'
+-my-zsh"
+alias ls='ls --color=auto'
+alias audio='pavucontrol'
+alias shutdown='shutdown -h now'
+alias update='yay -Syu'
+alias ..='cd ..'
+alias vim='nvim'
+alias n='nvim'
+alias open='xdg-open'
+alias wlan='nmtui'
+alias monitor='arandr'
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+add-zsh-hook chpwd load-tfswitch
+EOF
+	chown "${user}:${user}" "/home/${user}/.zshrc"
+	mkdir -p "/home/${user}/.oh-my-zsh/custom/themes" "/home/${user}/.oh-my-zsh/custom/plugins"
+	
+	
+	curl -L https://raw.githubusercontent.com/sbugzu/gruvbox-zsh/master/gruvbox.zsh-theme > "/home/${user}/.oh-my-zsh/custom/themes/gruvbox.zsh-theme"
+	git clone https://github.com/zsh-users/zsh-autosuggestions "/home/${user}/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+	chown -R "/home/${user}/.oh-my-zsh"
+
+
+}
+
 add_xinit() {
 	local user="$1"; shift
 	echo "exec i3" > "/home/${user}/.xinitrc"
@@ -236,7 +294,7 @@ install_packages() {
 	set -e
 
 	#General
-	packages+='intel-ucode pulseaudio alsa-utils alsa-plugins pavucontrol terminator scrot polybar neovim google-chrome'
+	packages+='intel-ucode pulseaudio alsa-utils alsa-plugins pavucontrol terminator scrot polybar neovim google-chrome zsh xclip'
 
 	#i3
 	packages+=' xorg-server xorg-xrandr xorg-xinit i3-gaps i3status rofi i3lock'
