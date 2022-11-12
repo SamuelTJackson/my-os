@@ -10,6 +10,8 @@ bindsym $mod+c move absolute position center
 bindsym XF86MonBrightnessUp exec light -A 5
 bindsym XF86MonBrightnessDown exec light -U 5
 
+bindsym $mod+p exec bwmenu --auto-lock -1
+
 # gaps inner 10
 # gaps outer 0
 # smart_gaps on
