@@ -1,4 +1,5 @@
 #!/bin/bash
+
 DRIVE='/dev/nvme0n1'
 HOSTNAME='laptop'
 USER_NAME='samuel'
@@ -106,11 +107,13 @@ configure() {
 
 	pacman --noconfirm -S git 	
 
-	install_gvm "$USER_NAME"
+#	install_gvm "$USER_NAME"
+	install_yay "$USER_NAME"
 
 	install_network_manager
 	install_packages
 	set_i3_config "$USER_NAME"
+	add_xinit "$USER_NAME"
 
 }
 
@@ -153,8 +156,7 @@ install_yay() {
 	local user="$1"; shift
 	local password="$2"; shift
 
-	pacman --noconfirm -S base-devel
-	su - "$user" -c 'git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm"'
+	su - "$user" -c 'git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm'
 
 }
 
@@ -167,50 +169,75 @@ install_bootloader() {
 set_i3_config() {
 	local user="$1"; shift
 	
-	mkdir -p ~/.config/i3 ~/.config/i3status ~/.config/polybar ~/.config/terminator
+	mkdir -p "/home/${user}/.config/i3" "/home/${user}/.config/i3status" "/home/${user}/.config/polybar" "/home/${user}/.config/terminator" "/home/${user}/.local/share/fonts"
 
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/i3/config --output ~/.config/i3/config
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/i3/background.png --output ~/.config/i3/background.png
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/i3status/config --output ~/.config/i3status/config
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/i3/config --output  "/home/${user}/.config/i3/config"
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/i3/background.png --output  "/home/${user}/.config/i3/background.png"
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/i3status/config --output   "/home/${user}/.config/i3status/config"
 
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/polybar/config --output ~/.config/polybar/config
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/polybar/bluetooth.sh --output ~/.config/polybar/bluetooth.sh
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/polybar/launch.sh --output ~/.config/polybar/launch.sh
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/polybar/toogle-bluetooth.sh --output ~/.config/polybar/toogle-bluetooth.sh
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/polybar/vpn.sh --output ~/.config/polybar/vpn.sh
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/rofi/config.nasi --output ~/.config/polybar/config.nasi
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/polybar/config --output  "/home/${user}/.config/polybar/config"
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/polybar/bluetooth.sh --output  "/home/${user}/.config/polybar/bluetooth.sh"
+	chmod +x  "/home/${user}/.config/polybar/bluetooth.sh"
+
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/polybar/launch.sh --output  "/home/${user}/.config/polybar/launch.sh"
+	chmod +x  "/home/${user}/.config/polybar/launch.sh"
+
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/polybar/toggle-bluetooth.sh --output  "/home/${user}/.config/polybar/toggle-bluetooth.sh"
+	chmod +x  "/home/${user}/.config/polybar/toggle-bluetooth.sh"
+
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/polybar/vpn.sh --output  "/home/${user}/.config/polybar/vpn.sh"
+	chmod +x  "/home/${user}/.config/polybar/vpn.sh"
+
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/rofi/config.nasi --output  "/home/${user}/.config/polybar/config.nasi"
 	
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/terminator/config --output ~/.config/terminator/config
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/terminator/config --output  "/home/${user}/.config/terminator/config"
+
+
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/fonts/3270-Medium%20Nerd%20Font%20Complete%20Mono.ttf --output  "/home/${user}/.local/share/fonts/3270-Medium Nerd Font Complete Mono.ttf"
+
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/fonts/FiraCode-SemiBold.ttf --output  "/home/${user}/.local/share/fonts/FiraCode-SemiBold.ttf"
+
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/fonts/JetBrainsMono-ExtraBold.ttf --output  "/home/${user}/.local/share/fonts/JetBrainsMono-ExtraBold.ttf"
 	
-	chown -r "${user}:${user}" ~/.config/*
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/fonts/JetBrainsMono-SemiBold.ttf --output  "/home/${user}/.local/share/fonts/JetBrainsMono-SemiBold.ttf"
+
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/fonts/MaterialIcons-Regular.ttf --output  "/home/${user}/.local/share/fonts/MaterialIcons-Regular.ttf"
+
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/fonts/JetBrains%20Mono%20Regular%20Nerd%20Font%20Complete%20Mono.ttf --output  "/home/${user}/.local/share/fonts/JetBrains Mono Regular Nerd Font Complete Mono.ttf"
+	
+	chown -R "${user}:${user}" "/home/${user}/.config"
+	chown -R "${user}:${user}" "/home/${user}/.local"
+}
+
+add_xinit() {
+	local user="$1"; shift
+	echo "exec i3" > "/home/${user}/.xinitrc"
+
 }
 
 install_packages() {
 	local packages=''
+	set -e
 
 	#General
-	packages+='intel-ucode alsa-utils alsa-plugins pavucontrol'
-
-	#Laptop
-	packages+='tlp tlp-rdw powertop acpi'
+	packages+='intel-ucode pulseaudio alsa-utils alsa-plugins pavucontrol terminator scrot polybar neovim google-chrome'
 
 	#i3
-	pacman --noconfirm -S xorg-server xorg-xrandr xorg-xinit i3-gaps i3blocks i3lock i3status
+	packages+=' xorg-server xorg-xrandr xorg-xinit i3-gaps i3status rofi'
 
 	#fonts
-	pacman --noconfirm -S tf-dejavu ttf-freefont ttf-liberation ttf-droid ttf-roboto terminus-font
+	packages+=' ttf-dejavu ttf-freefont ttf-liberation ttf-droid ttf-roboto terminus-font'
 
 
-	#pacman --noconfirm -S "$packages"
-	pacman --noconfirm -S lightdm lightdm-gtk-greeter --needed
-	pacman --noconfirm -S rxvt-unicode rofi --needed
+	yay --noconfirm -S ${packages}
+	#pacman --noconfirm -S lightdm lightdm-gtk-greeter --needed
+	#pacman --noconfirm -S rxvt-unicode rofi --needed
 
-	systemctl enable tlp
-	systemctl mask systemd-rfkill.service
-	systemctl maks systemd-rfkill.socket
-	systemctl enable lightdm
+	#systemctl mask systemd-rfkill.service
+	#systemctl mask systemd-rfkill.socket
+	#systemctl enable lightdm
 	
-	pulseaudion -D
+	pulseaudio -D
 }
 
 if [ "$1" == "chroot" ]
