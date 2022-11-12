@@ -212,6 +212,13 @@ set_i3_config() {
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/plugins.lua --output  "/home/${user}/.config/nvim/lua/plugins.lua"
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/settings.lua --output  "/home/${user}/.config/nvim/lua/settings.lua"
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/utils.lua --output  "/home/${user}/.config/nvim/lua/utils.lua"
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/plugins/autopairs.lua --output  "/home/${user}/.config/nvim/lua/plugins/autopairs.lua"
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/plugins/bufferline.lua --output  "/home/${user}/.config/nvim/lua/plugins/bufferline.lua"
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/plugins/colorizer.lua --output  "/home/${user}/.config/nvim/lua/plugins/colorizer.lua"
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/plugins/lualine.lua --output  "/home/${user}/.config/nvim/lua/plugins/lualine.lua"
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/plugins/nvim-tree.lua --output  "/home/${user}/.config/nvim/lua/plugins/nvim-tree.lua"
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/plugins/nvim-web-devicons.lua --output  "/home/${user}/.config/nvim/lua/plugins/nvim-web-devicons.lua"
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/plugins/treesitter.lua --output  "/home/${user}/.config/nvim/lua/plugins/treesitter.lua"
 
 	
 	chown -R "${user}:${user}" "/home/${user}/.config"
