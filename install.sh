@@ -298,19 +298,13 @@ install_packages() {
 	packages+='intel-ucode pulseaudio alsa-utils alsa-plugins pavucontrol terminator scrot polybar neovim google-chrome zsh xclip light'
 
 	#i3
-	packages+=' xorg-server xorg-xrandr xorg-xinit i3-gaps i3status rofi i3lock'
+	packages+=' xorg-server xorg-xrandr xorg-xinit i3-gaps i3status rofi i3lock arandr'
 
 	#fonts
 	packages+=' noto-fonts-emoji ttf-dejavu'
 
 
 	yay --noconfirm -S ${packages}
-	#pacman --noconfirm -S lightdm lightdm-gtk-greeter --needed
-	#pacman --noconfirm -S rxvt-unicode rofi --needed
-
-	#systemctl mask systemd-rfkill.service
-	#systemctl mask systemd-rfkill.socket
-	#systemctl enable lightdm
 	
 	pulseaudio -D
 }
