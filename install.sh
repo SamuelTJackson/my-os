@@ -170,7 +170,7 @@ install_bootloader() {
 set_i3_config() {
 	local user="$1"; shift
 	
-	mkdir -p "/home/${user}/.config/i3" "/home/${user}/.config/i3status" "/home/${user}/.config/polybar" "/home/${user}/.config/terminator" "/home/${user}/.local/share/fonts" "/home/${user}/.config/nvim/lua/plugins"
+	mkdir -p "/home/${user}/.config/i3" "/home/${user}/.config/dunst" "/home/${user}/.config/i3status" "/home/${user}/.config/polybar" "/home/${user}/.config/terminator" "/home/${user}/.local/share/fonts" "/home/${user}/.config/nvim/lua/plugins"
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/i3/config --output  "/home/${user}/.config/i3/config"
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/i3/background.png --output  "/home/${user}/.config/i3/background.png"
@@ -221,6 +221,7 @@ set_i3_config() {
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/plugins/nvim-web-devicons.lua --output  "/home/${user}/.config/nvim/lua/plugins/nvim-web-devicons.lua"
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/plugins/treesitter.lua --output  "/home/${user}/.config/nvim/lua/plugins/treesitter.lua"
 
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/dunst/dunstrc --output  "/home/${user}/.config/dunst/dunstrc"
 	
 	chown -R "${user}:${user}" "/home/${user}/.config"
 	chown -R "${user}:${user}" "/home/${user}/.local"
@@ -295,7 +296,7 @@ install_packages() {
 	set -e
 
 	#General
-	packages+='intel-ucode pulseaudio alsa-utils alsa-plugins pavucontrol terminator scrot polybar neovim google-chrome zsh xclip light bitwarden bitwarden-rofi'
+	packages+='intel-ucode pulseaudio alsa-utils alsa-plugins pavucontrol terminator scrot polybar neovim google-chrome zsh xclip light bitwarden bitwarden-rofi dunst'
 
 	#i3
 	packages+=' xorg-server xorg-xrandr xorg-xinit i3-gaps i3status rofi i3lock arandr'
