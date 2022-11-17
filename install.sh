@@ -293,7 +293,7 @@ add_xinit() {
 }
 
 setup_touchpad() {
-cat >> "/etc/X11/xorg.conf.d/30-touchpad.conf" <<EOF
+	cat >> "/etc/X11/xorg.conf.d/30-touchpad.conf" <<EOF
 Section "InputClass"
     Identifier "touchpad"
     Driver "libinput"
