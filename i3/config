@@ -6,6 +6,8 @@
 #
 # for_window [class=".*"] move absolute position center
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc
+
 bindsym $mod+c move absolute position center
 bindsym XF86MonBrightnessUp exec light -A 5
 bindsym XF86MonBrightnessDown exec light -U 5
