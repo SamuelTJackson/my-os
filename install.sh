@@ -292,6 +292,7 @@ add_xinit() {
 
 }
 
+# chrome://flags/#enable-native-notifications
 setup_touchpad() {
 	cat >> "/etc/X11/xorg.conf.d/30-touchpad.conf" <<EOF
 Section "InputClass"
