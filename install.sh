@@ -115,6 +115,7 @@ configure() {
 	set_i3_config "$USER_NAME"
 	add_xinit "$USER_NAME"
 	add_zsh_config "$USER_NAME"
+	setup_touchpad
 
 }
 
@@ -291,12 +292,25 @@ add_xinit() {
 
 }
 
+setup_touchpad() {
+cat >> "/etc/X11/xorg.conf.d/30-touchpad.conf" <<EOF
+Section "InputClass"
+    Identifier "touchpad"
+    Driver "libinput"
+    MatchIsTouchpad "on"
+    Option "Tapping" "on
+    Option "ClickMethod" "clickfinger"
+    Option "NaturalScrolling" "false"
+EndSection
+EOF
+}
+
 install_packages() {
 	local packages=''
 	set -e
 
 	#General
-	packages+='intel-ucode pulseaudio alsa-utils alsa-plugins pavucontrol terminator scrot polybar neovim google-chrome zsh xclip light bitwarden bitwarden-rofi dunst'
+	packages+='intel-ucode pulseaudio alsa-utils alsa-plugins pavucontrol terminator scrot polybar neovim google-chrome zsh xclip light bitwarden bitwarden-rofi dunst libinput'
 
 	#i3
 	packages+=' xorg-server xorg-xrandr xorg-xinit i3-gaps i3status rofi i3lock arandr'
