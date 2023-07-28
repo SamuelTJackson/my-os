@@ -138,7 +138,7 @@ create_user () {
 	local name="$1"; shift
 	local password="$1"; shift
 
-	useradd -m -s /bin/bash -G sudo video "$name"
+	useradd -m -s /bin/bash -G sudo,video "$name"
 	echo -en "$password\n$password"  | passwd "$name"
 }
 
