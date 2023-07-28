@@ -98,11 +98,6 @@ configure() {
 
 	install_sudo "$USER_NAME"
 
-	echo "Enter the password for user $USER_NAME"
-	stty -echo
-	read USER_PASSWORD
-	stty
-
 	create_user "$USER_NAME" "$USER_PASSWORD"
 
 	pacman --noconfirm -S git 	
@@ -156,10 +151,8 @@ install_gvm() {
 
 install_yay() {
 	local user="$1"; shift
-	local password="$2"; shift
 
 	su - "$user" -c 'git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm'
-
 }
 
 install_bootloader() {
