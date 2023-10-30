@@ -1,0 +1,61 @@
+set surround
+set timeoutlen=1000
+set scrolloff=10 " 3 lines above/below cursor when scrolling
+set ideajoin
+set multiple-cursors
+
+let mapleader = " "
+
+imap jj <Esc>
+
+vmap Q gq
+nmap Q gqap
+
+nmap <leader>ws :split<cr>
+nmap <leader>wv :vsplit<cr>
+
+nmap <leader>sr :source ~/.ideavimrc<cr>
+nmap <c-t> /[A-Z]<return>
+vmap <c-t> /[A-Z]<return>
+
+nnoremap <C-o> :<C-u>action Back<CR>
+nnoremap <C-i> :<C-u>action Forward<CR>
+
+nnoremap ]d :<C-u>action GotoPreviousError<CR>
+nnoremap [d :<C-u>action GotoNextError<CR>
+
+nnoremap gi :<C-u>action GotoImplementation<CR>
+nnoremap gd :<C-u>action GotoDeclaration<CR>
+nnoremap gr :<C-u>action ShowUsages<CR>
+nnoremap <Space>cr :<C-u>action RenameElement<CR>
+nnoremap tg :<C-u>action SearchEverywhere<CR>
+nnoremap L :<C-u>action NextTab<CR>
+nnoremap H :<C-u>action PreviousTab<CR>
+inoremap <Tab> :<C-u>action EditorUp<CR>
+nmap nf :action SelectInProjectView<CR>
+nmap nt :action ActivateProjectToolWindow<CR>
+nmap <C-s> :write<cr>
+
+nmap <C-l> :action PrevSplitter<CR>
+nmap <C-h> :action PrevSplitter<CR>
+
+nnoremap a :<C-u>action FileChooser.NewFile<CR>
+nnoremap af :<C-u>action FileChooser.NewFolder<CR>
+
+nmap <C-+> :action EditorIncreaseFontSize<CR>
+nmap <C--> :action EditorDecreaseFontSize<CR>
+imap <silent> PP <ESC>pa
+
+nnoremap yy "+yy
+vnoremap y "+y
+
+nnoremap dd "+dd
+vnoremap d "+d
+
+nnoremap p "+p
+vnoremap p "+p
+nnoremap P "+P
+vnoremap P "+P
+
+|"set clipboard+=ideaput
+|"set clipboard+=unnamed
