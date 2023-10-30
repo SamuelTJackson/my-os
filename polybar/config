@@ -77,7 +77,7 @@ font-2 = "JetBrainsMono Nerd Font Mono:pixelsize=15:antialias=true;5"
 font-3 = "JetBrainsMono Nerd Font Mono:pixelsize=13:antialias=true;4"
 font-4 = "JetBrainsMono Nerd Font Mono:pixelsize=10:antialias=true;3"
 
-modules-left = i3 traysep monitor bluetooth service
+modules-left = i3 traysep monitor folder bluetooth
 modules-center = date
 modules-right = memory cpu filesystem network battery pulseaudio date2 power
 
@@ -343,6 +343,18 @@ content-prefix = " "
 content-prefix-font = 4
 content-prefix-background = ${colors.yellow}
 click-left = arandr
+
+[module/folder]
+type = custom/text
+
+content = "  "
+content-background = ${colors.gray-ligth}
+content-foreground = ${colors.bg}
+content-font = 2
+content-prefix = " "
+content-prefix-font = 4
+content-prefix-background = ${colors.red}
+click-left = dde-file-manager
 
 [module/bluetooth]
 type = custom/text
