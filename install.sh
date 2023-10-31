@@ -37,11 +37,6 @@ partition_drive() {
 		p
 		2
 		
-		+30G
-		n
-		p
-		3
-		
 		
 		
 		a
@@ -55,19 +50,27 @@ partition_drive() {
 EOF
 
 local boot_dev="${dev}p1"; shift
-local swap_dev="${dev}p2"; shift
-local home_dev="${dev}p3"; shift
+local home_dev="${dev}p2"; shift
 
-mkfs.fat -F 32 -n EFIBOOT "$boot_dev"
-mkswap -L p_swap "$swap_dev"
-mkfs.ext4 -L p_arch "$home_dev"
-}
+cryptsetup luksFormat "$home_dev"
+cryptsetup open "$home_dev" cryptlvm
 
-mount_drive() {
-	mount -L p_arch /mnt
-	mkdir /mnt/boot
-	mount -L EFIBOOT /mnt/boot
-	swapon -L p_swap
+pvcreate /dev/mapper/cryptlvm
+vgcreate Laptop /dev/mapper/cryptlvm
+
+lvcreate -L 32G Laptop -n swap
+lvcreate -L 64G Laptop -n root
+lvcreate -l 100%FREE Laptop -n home
+
+mkfs.ext4 /dev/Laptop/root
+mkfs.ext4 /dev/Laptop/home
+mkswap /dev/Laptop/swap
+mkfs.fat -F32 "$boot_dev"
+
+mount /dev/Laptop/root /mnt
+mount --mkdir /dev/Laptop/home /mnt/home
+swapon /dev/Laptop/swap
+mount --mkdir "$boot_dev" /mnt/boot
 }
 
 install_base() {
