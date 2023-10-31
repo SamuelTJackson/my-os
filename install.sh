@@ -52,8 +52,8 @@ EOF
 local boot_dev="${dev}p1"; shift
 local home_dev="${dev}p2"; shift
 
-cryptsetup luksFormat "$home_dev"
-cryptsetup open "$home_dev" cryptlvm
+cryptsetup --batch-mode luksFormat "$home_dev"
+echo "$password" | cryptsetup open "$home_dev" cryptlvm -
 
 pvcreate /dev/mapper/cryptlvm
 vgcreate Laptop /dev/mapper/cryptlvm
