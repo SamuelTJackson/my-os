@@ -95,8 +95,11 @@ unmount_filesystem() {
 
 configure() {
 	set_timezone
+ 
+ 	configure_mkinitcpio
+
 	install_bootloader
-	configure_mkinitcpio
+
 	set_hostname "$HOSTNAME"
 
 	install_sudo "$USER_NAME"
