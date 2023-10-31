@@ -69,10 +69,11 @@ mount /dev/Laptop/root /mnt
 mount --mkdir /dev/Laptop/home /mnt/home
 swapon /dev/Laptop/swap
 mount --mkdir "$boot_dev" /mnt/boot
+blkid "$home_dev" -s UUID -o value > /mnt/uuid
 }
 
 install_base() {
-	pacstrap /mnt base base-devel linux linux-firmware linux-headers
+	pacstrap /mnt base base-devel linux linux-firmware linux-headers lvm2
 }
 
 
@@ -93,8 +94,9 @@ unmount_filesystem() {
 }
 
 configure() {
+	set_timezone
 	install_bootloader
-
+	configure_mkinitcpio
 	set_hostname "$HOSTNAME"
 
 	install_sudo "$USER_NAME"
@@ -103,16 +105,24 @@ configure() {
 
 	pacman --noconfirm -S git 	
 
-#	install_gvm "$USER_NAME"
-	install_yay "$USER_NAME"
+	#install_yay "$USER_NAME"
 
-	install_network_manager
-	install_packages
-	set_i3_config "$USER_NAME"
-	add_xinit "$USER_NAME"
-	add_zsh_config "$USER_NAME"
-	setup_touchpad
+	#install_network_manager
+	#install_packages
+	#set_i3_config "$USER_NAME"
+	#add_xinit "$USER_NAME"
+	#add_zsh_config "$USER_NAME"
+	#setup_touchpad
 
+}
+
+set_timezone() {
+	ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+ 	hwclock --systohc
+  	echo "en_US.UTF-8 UTF-8" >> /etc/locale.get
+   	locale-gen
+    	touch /etc/locale.conf
+    	echo "LANG=en_US.UTF-8" > /etc/locale.conf
 }
 
 install_sudo() {
@@ -144,21 +154,23 @@ install_network_manager() {
 	systemctl enable NetworkManager
 }
 
-
-install_gvm() {
-	local user="$1"; shift
-	su - "$user" -c 'bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer) && source ~/.gvm/scripts/gvm && gvm install go1.4 -B && gvm use go1.4 && export GOROOT_BOOTSTRAP=$GOROOT && gvm install go1.17 && gvm use go1.17 --default'
-}
-
 install_yay() {
 	local user="$1"; shift
 
 	su - "$user" -c 'git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm'
 }
 
+configure_mkinitcpio() {
+	sed -i 's/HOOKS=(base udev autodetect modconf kms keyboard keymap consolefont block filesystems fsck)/HOOKS=(base udev autodetect modconf kms keyboard keymap consolefont block encrypt lvm2 filesystems fsck)/g' /etc/mkinitcpio.conf
+ 	mkinitcpio -P
+}
+
 install_bootloader() {
 	pacman --noconfirm -S grub efibootmgr
 	grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+ 	uuid=$(cat /uuid)
+  	rm /uuid
+   	sed -i 's#GRUB_CMDLINE_LINUX=""#GRUB_CMDLINE_LINUX="cryptdevice=UUID='"$uuid"':cryptlvm root=/dev/Laptop/root"#g' /etc/default/grub
 	grub-mkconfig -o /boot/grub/grub.cfg
 }
 
