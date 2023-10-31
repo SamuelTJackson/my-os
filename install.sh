@@ -334,6 +334,11 @@ install_packages() {
 	pulseaudio -D
 }
 
+enable_services() {
+	systemctl start bluetooth     
+ 	systemctl enable bluetooth
+ }
+
 if [ "$1" == "chroot" ]
 then
 	configure
