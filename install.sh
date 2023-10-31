@@ -107,15 +107,15 @@ configure() {
 	create_user "$USER_NAME" "$USER_PASSWORD"
 
 	pacman --noconfirm -S git 	
+	install_network_manager
+ 
+	install_yay "$USER_NAME"
 
-	#install_yay "$USER_NAME"
-
-	#install_network_manager
-	#install_packages
-	#set_i3_config "$USER_NAME"
-	#add_xinit "$USER_NAME"
-	#add_zsh_config "$USER_NAME"
-	#setup_touchpad
+	install_packages
+	set_i3_config "$USER_NAME"
+	add_xinit "$USER_NAME"
+	add_zsh_config "$USER_NAME"
+	setup_touchpad
 
 }
 
@@ -152,7 +152,7 @@ create_user () {
 }
 
 install_network_manager() {
-	pacman --noconfirm -S dhcpcd networkmanager network-manager-applet
+	pacman --noconfirm -S dhcpcd networkmanager network-manager-applet networkmanager-openvpn
 	systemctl enable dhcpcd
 	systemctl enable NetworkManager
 }
