@@ -7,8 +7,6 @@ USER_PASSWORD=''
 
 setup() {
 	partition_drive "$DRIVE"
-	
-	mount_drive "$DRIVE"
 
 	install_base
 	
