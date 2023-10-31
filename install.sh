@@ -295,12 +295,6 @@ EOF
 
 }
 
-add_xinit() {
-	local user="$1"; shift
-	echo "exec i3" > "/home/${user}/.xinitrc"
-
-}
-
 # chrome://flags/#enable-native-notifications
 setup_touchpad() {
 	cat >> "/etc/X11/xorg.conf.d/30-touchpad.conf" <<EOF
@@ -313,6 +307,12 @@ Section "InputClass"
     Option "NaturalScrolling" "false"
 EndSection
 EOF
+}
+
+add_xinit() {
+	local user="$1"; shift
+	echo "exec i3" > "/home/${user}/.xinitrc"
+
 }
 
 install_packages() {
