@@ -112,11 +112,11 @@ configure() {
 	install_yay "$USER_NAME"
 
 	install_packages
+ 	enable_services
 	set_i3_config "$USER_NAME"
 	add_xinit "$USER_NAME"
 	add_zsh_config "$USER_NAME"
 	setup_touchpad
-
 }
 
 set_timezone() {
@@ -291,8 +291,6 @@ EOF
 	git clone https://github.com/zsh-users/zsh-autosuggestions "/home/${user}/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 
 	chown -R "/home/${user}/.oh-my-zsh"
-
-
 }
 
 # chrome://flags/#enable-native-notifications
