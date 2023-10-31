@@ -327,7 +327,7 @@ install_packages() {
 	packages+=' noto-fonts-emoji ttf-dejavu'
 
 
-	yay --noconfirm -S ${packages}
+	yay --noconfirm -S "${packages}"
 	
 	pulseaudio -D
 }
