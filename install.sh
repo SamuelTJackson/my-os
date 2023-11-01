@@ -291,7 +291,7 @@ EOF
 	curl -L https://raw.githubusercontent.com/sbugzu/gruvbox-zsh/master/gruvbox.zsh-theme > "/home/${user}/.oh-my-zsh/custom/themes/gruvbox.zsh-theme"
 	git clone https://github.com/zsh-users/zsh-autosuggestions "/home/${user}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
 
-	chown -R "/home/${user}/.oh-my-zsh"
+	chown -R "${user}:${user}" "/home/${user}/.oh-my-zsh"
 }
 
 # chrome://flags/#enable-native-notifications
