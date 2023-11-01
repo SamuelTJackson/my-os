@@ -244,7 +244,7 @@ add_zsh_config() {
 	
 	cat "/home/${user}/.bashrc" >> "/home/${user}/.zshrc"
 	
-	cat >> "/home/${user}/.zshrc" <<EOF
+	cat >> "/home/${user}/.zshrc" <<"EOF"
 export LANG=en_US.UTF-8
 
 # Path to your oh-my-zsh installation.
