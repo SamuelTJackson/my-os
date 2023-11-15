@@ -77,7 +77,7 @@ font-2 = "JetBrainsMono Nerd Font Mono:pixelsize=15:antialias=true;5"
 font-3 = "JetBrainsMono Nerd Font Mono:pixelsize=13:antialias=true;4"
 font-4 = "JetBrainsMono Nerd Font Mono:pixelsize=10:antialias=true;3"
 
-modules-left = i3 traysep monitor folder bluetooth
+modules-left = i3 traysep monitor folder bluetooth microphone
 modules-center = date
 modules-right = memory cpu filesystem network battery pulseaudio date2 power
 
@@ -382,6 +382,19 @@ format-font = 5
 format-prefix = " "
 format-prefix-font = 4
 format-prefix-background = ${colors.red}
+
+[module/microphone]
+type = custom/script
+exec = ~/.config/polybar/audio.sh
+interval = 5
+click-left =  ~/.config/polybar/audio.sh toggle &
+label = " %output% "
+format-background = ${colors.gray-ligth}
+format-foreground = ${colors.bg}
+format-font = 5
+format-prefix = " "
+format-prefix-font = 4
+format-prefix-background = ${colors.green}
 
 [settings]
 screenchange-reload = true
