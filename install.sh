@@ -192,6 +192,9 @@ set_i3_config() {
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/polybar/launch.sh --output  "/home/${user}/.config/polybar/launch.sh"
 	chmod +x  "/home/${user}/.config/polybar/launch.sh"
+ 
+ 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/polybar/audio.sh --output  "/home/${user}/.config/polybar/audio.sh"
+	chmod +x  "/home/${user}/.config/polybar/audio.sh"
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/polybar/toggle-bluetooth.sh --output  "/home/${user}/.config/polybar/toggle-bluetooth.sh"
 	chmod +x  "/home/${user}/.config/polybar/toggle-bluetooth.sh"
