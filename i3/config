@@ -7,6 +7,7 @@
 # for_window [class=".*"] move absolute position center
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc
+exec_always --no-startup-id /usr/bin/blueman-applet
 
 bindsym $mod+c move absolute position center
 bindsym XF86MonBrightnessUp exec light -A 5
@@ -99,7 +100,7 @@ bindsym $mod+Shift+Right move right
 # bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+h split c
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -111,7 +112,6 @@ bindsym $mod+f fullscreen toggle
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
-
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
 
@@ -242,7 +242,10 @@ bindsym Ctrl+Print exec scrot -u -s 'screenshot_%d-%m-%Y_%H:%M:%S.png' -e 'mkdir
 # 	font pango:monospace 13
 # }
 
-# bindsym $mod+Shift+Return exec terminator -e 'ranger' --role=floating
-# for_window [window_role="^floating$"] floating enable
-# floating_minimum_size 1400 x 700
-# for_window [window_role="^floating$"] border pixel 3
+bindsym $mod+Shift+Return exec terminator -e 'ranger' --role=floating
+for_window [window_role="^floating$"] floating enable
+#floating_minimum_size 1400 x 700
+for_window [window_role="^floating$"] border pixel 3
+for_window [class="Pavucontrol" instance="pavucontrol"] floating enable, resize set 800px 500px, move position center
+for_window [class="Blueman-manager" instance="blueman-manager"] floating enable, resize set 800px 500px, move position center
+for_window [class="dde-file-manager" instance="dde-file-manager"] floating enable, resize set 1200px 500px, move position center
