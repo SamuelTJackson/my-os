@@ -307,7 +307,6 @@ install_packages() {
    	pacman --noconfirm -S "i3-gaps"
    	pacman --noconfirm -S "rofi"
    	pacman --noconfirm -S "i3lock"
-   	pacman --noconfirm -S "rofi-greenclip"
    	pacman --noconfirm -S "arandr"
    	pacman --noconfirm -S "i3-gaps"
    	pacman --noconfirm -S "noto-fonts-emoji"
