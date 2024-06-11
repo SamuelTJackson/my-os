@@ -6,7 +6,7 @@ USER_NAME='samuel'
 USER_PASSWORD=''
 
 setup() {
-    pacman -Sy archlinux-keyring
+    pacman --noconfirm -Sy archlinux-keyring
 
 	partition_drive "$DRIVE"
 
@@ -301,7 +301,6 @@ install_packages() {
    	pacman --noconfirm -S "pulseaudio-bluetooth"
    	pacman --noconfirm -S "sof-firmware"
    	pacman --noconfirm -S "less"
-   	pacman --noconfirm -S "rofi-greenclip"
    	pacman --noconfirm -S "xorg-server"
    	pacman --noconfirm -S "xorg-xrandr"
    	pacman --noconfirm -S "xorg-xinit"
