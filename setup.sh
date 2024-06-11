@@ -232,6 +232,9 @@ set_i3_config() {
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/scripts/tmux-sessionizer --output  "/home/${user}/.local/scripts/sessionizer"
 	chmod +x  "/home/${user}/.local/scripts/sessionizer"
+
+
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/greenclip/greenclip.toml --output  "/home/${user}/.config/greenclip.toml"
 }
 
 add_nvim_config(){
@@ -278,17 +281,37 @@ install_packages() {
 	local packages=''
 	set -e
 
-	#General
-	packages+='intel-ucode pulseaudio alsa-utils alsa-plugins pavucontrol kitty scrot polybar neovim zsh xclip light dunst libinput archlinux-keyring blueman pulseaudio-bluetooth sof-firmware less'
-
-	#i3
-	packages+=' xorg-server xorg-xrandr xorg-xinit i3-gaps i3status rofi i3lock arandr'
-
-	#fonts
-	packages+=' noto-fonts-emoji ttf-dejavu'
-
-
-	pacman --noconfirm -S "${packages}"
+   	pacman --noconfirm -S "intel-ucode"
+   	pacman --noconfirm -S "pulseaudio"
+   	pacman --noconfirm -S "alsa-utils"
+   	pacman --noconfirm -S "alsa-plugins"
+   	pacman --noconfirm -S "pavucontrol"
+   	pacman --noconfirm -S "kitty"
+   	pacman --noconfirm -S "scrot"
+   	pacman --noconfirm -S "polybar"
+   	pacman --noconfirm -S "neovim"
+   	pacman --noconfirm -S "zsh"
+   	pacman --noconfirm -S "xclip"
+   	pacman --noconfirm -S "light"
+   	pacman --noconfirm -S "dunst"
+   	pacman --noconfirm -S "libinput"
+   	pacman --noconfirm -S "archlinux-keyring"
+   	pacman --noconfirm -S "blueman"
+   	pacman --noconfirm -S "pulseaudio-bluetooth"
+   	pacman --noconfirm -S "sof-firmware"
+   	pacman --noconfirm -S "less"
+   	pacman --noconfirm -S "rofi-greenclip"
+   	pacman --noconfirm -S "xorg-server"
+   	pacman --noconfirm -S "xorg-xrandr"
+   	pacman --noconfirm -S "xorg-xinit"
+   	pacman --noconfirm -S "i3-gaps"
+   	pacman --noconfirm -S "rofi"
+   	pacman --noconfirm -S "i3lock"
+   	pacman --noconfirm -S "rofi-greenclip"
+   	pacman --noconfirm -S "arandr"
+   	pacman --noconfirm -S "i3-gaps"
+   	pacman --noconfirm -S "noto-fonts-emoji"
+   	pacman --noconfirm -S "ttf-dejavu"
 
 	pulseaudio -D
 }
