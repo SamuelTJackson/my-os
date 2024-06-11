@@ -6,10 +6,12 @@ USER_NAME='samuel'
 USER_PASSWORD=''
 
 setup() {
+    pacman -Sy archlinux-keyring
+
 	partition_drive "$DRIVE"
 
 	install_base
-	
+
 	create_fstab
 
 	cp $0 /mnt/setup.sh
@@ -19,7 +21,7 @@ setup() {
 
 	echo "Unmounting filesystem"
 	echo 'Done! Reboot system.'
-		
+
 }
 
 partition_drive() {
@@ -29,14 +31,14 @@ partition_drive() {
 		n
 		p
 		1
-	
+
 		+512M
 		n
 		p
 		2
-		
-		
-		
+
+
+
 		a
 		1
 		t
@@ -95,7 +97,7 @@ unmount_filesystem() {
 
 configure() {
 	set_timezone
- 
+
  	configure_mkinitcpio
 
 	install_bootloader
@@ -106,9 +108,9 @@ configure() {
 
 	create_user "$USER_NAME" "$USER_PASSWORD"
 
-	pacman --noconfirm -S git 	
+	pacman --noconfirm -S git
 	install_network_manager
- 
+
 	install_yay "$USER_NAME"
 
 	install_packages
@@ -124,8 +126,9 @@ set_timezone() {
  	hwclock --systohc
   	echo "en_US.UTF-8 UTF-8" >> /etc/locale.get
    	locale-gen
-    	touch /etc/locale.conf
-    	echo "LANG=en_US.UTF-8" > /etc/locale.conf
+    touch /etc/locale.conf
+    echo "LANG=en_US.UTF-8" > /etc/locale.conf
+    pacman -Sy archlinux-keyring
 }
 
 install_sudo() {
@@ -179,8 +182,8 @@ install_bootloader() {
 
 set_i3_config() {
 	local user="$1"; shift
-	
-	mkdir -p "/home/${user}/.config/i3" "/home/${user}/.config/dunst" "/home/${user}/.config/i3status" "/home/${user}/.config/polybar" "/home/${user}/.config/terminator" "/home/${user}/.local/share/fonts" "/home/${user}/.config/nvim/lua/plugins"
+
+	mkdir -p "/home/${user}/.local/scripts" "/home/${user}/.config/i3" "/home/${user}/.config/dunst" "/home/${user}/.config/i3status" "/home/${user}/.config/polybar" "/home/${user}/.config/kitty" "/home/${user}/.local/share/fonts"  "/home/${user}/.config/tmux"
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/i3/config --output  "/home/${user}/.config/i3/config"
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/i3/background.png --output  "/home/${user}/.config/i3/background.png"
@@ -192,7 +195,7 @@ set_i3_config() {
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/polybar/launch.sh --output  "/home/${user}/.config/polybar/launch.sh"
 	chmod +x  "/home/${user}/.config/polybar/launch.sh"
- 
+
  	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/polybar/audio.sh --output  "/home/${user}/.config/polybar/audio.sh"
 	chmod +x  "/home/${user}/.config/polybar/audio.sh"
 
@@ -203,8 +206,8 @@ set_i3_config() {
 	chmod +x  "/home/${user}/.config/polybar/vpn.sh"
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/rofi/config.nasi --output  "/home/${user}/.config/polybar/config.nasi"
-	
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/terminator/config --output  "/home/${user}/.config/terminator/config"
+
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/kitty/config --output  "/home/${user}/.config/kitty/config"
 
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/fonts/3270-Medium%20Nerd%20Font%20Complete%20Mono.ttf --output  "/home/${user}/.local/share/fonts/3270-Medium Nerd Font Complete Mono.ttf"
@@ -212,85 +215,39 @@ set_i3_config() {
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/fonts/FiraCode-SemiBold.ttf --output  "/home/${user}/.local/share/fonts/FiraCode-SemiBold.ttf"
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/fonts/JetBrainsMono-ExtraBold.ttf --output  "/home/${user}/.local/share/fonts/JetBrainsMono-ExtraBold.ttf"
-	
+
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/fonts/JetBrainsMono-SemiBold.ttf --output  "/home/${user}/.local/share/fonts/JetBrainsMono-SemiBold.ttf"
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/fonts/MaterialIcons-Regular.ttf --output  "/home/${user}/.local/share/fonts/MaterialIcons-Regular.ttf"
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/fonts/JetBrains%20Mono%20Regular%20Nerd%20Font%20Complete%20Mono.ttf --output  "/home/${user}/.local/share/fonts/JetBrains Mono Regular Nerd Font Complete Mono.ttf"
-	
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/init.lua --output  "/home/${user}/.config/nvim/init.lua"
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/init.lua --output  "/home/${user}/.config/nvim/lua/init.lua"
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/auto-commands.lua --output  "/home/${user}/.config/nvim/lua/auto-commands.lua"
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/key-mappings.lua --output  "/home/${user}/.config/nvim/lua/key-mappings.lua"
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/plugins.lua --output  "/home/${user}/.config/nvim/lua/plugins.lua"
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/settings.lua --output  "/home/${user}/.config/nvim/lua/settings.lua"
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/utils.lua --output  "/home/${user}/.config/nvim/lua/utils.lua"
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/plugins/autopairs.lua --output  "/home/${user}/.config/nvim/lua/plugins/autopairs.lua"
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/plugins/bufferline.lua --output  "/home/${user}/.config/nvim/lua/plugins/bufferline.lua"
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/plugins/colorizer.lua --output  "/home/${user}/.config/nvim/lua/plugins/colorizer.lua"
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/plugins/lualine.lua --output  "/home/${user}/.config/nvim/lua/plugins/lualine.lua"
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/plugins/nvim-tree.lua --output  "/home/${user}/.config/nvim/lua/plugins/nvim-tree.lua"
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/plugins/nvim-web-devicons.lua --output  "/home/${user}/.config/nvim/lua/plugins/nvim-web-devicons.lua"
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/nvim/lua/plugins/treesitter.lua --output  "/home/${user}/.config/nvim/lua/plugins/treesitter.lua"
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/dunst/dunstrc --output  "/home/${user}/.config/dunst/dunstrc"
-	
+
 	chown -R "${user}:${user}" "/home/${user}/.config"
 	chown -R "${user}:${user}" "/home/${user}/.local"
+
+
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/tmux/tmux.conf --output  "/home/${user}/.config/tmux/tmux.conf"
+
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/scripts/tmux-sessionizer --output  "/home/${user}/.local/scripts/sessionizer"
+	chmod +x  "/home/${user}/.local/scripts/sessionizer"
+}
+
+add_nvim_config(){
+    git clone https://github.com/SamuelTJackson/nvim.git "/home/${user}/.config/nvim"
 }
 
 add_zsh_config() {
 	local user="$1"; shift
-		
+
 	su - "$user" -c 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended'
-	
-	cat "/home/${user}/.bashrc" >> "/home/${user}/.zshrc"
-	
-	cat >> "/home/${user}/.zshrc" <<"EOF"
-export LANG=en_US.UTF-8
 
-# Path to your oh-my-zsh installation.
-export ZSH="/home/${user}/.oh-my-zsh"
-
-ZSH_THEME="gruvbox"
-SOLARIZED_THEME="dark"
-
-plugins=(
-	git
-	docker
-	z
-	zsh-autosuggestions
- 	asdf
-)
-
-source $ZSH/oh-my-zsh.sh
-
-
-export EDITOR='nvim'
-
-alias ls='ls --color=auto'
-alias audio='pavucontrol'
-alias shutdown='shutdown -h now'
-alias update='yay -Syu'
-alias ..='cd ..'
-alias vim='nvim'
-alias n='nvim'
-alias open='xdg-open'
-alias wlan='nmtui'
-alias monitor='arandr'
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-
-add-zsh-hook chpwd load-tfswitch
-EOF
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/zsh/.zshrc --output  "/home/${user}/.zshrc"
 	chown "${user}:${user}" "/home/${user}/.zshrc"
 	mkdir -p "/home/${user}/.oh-my-zsh/custom/themes" "/home/${user}/.oh-my-zsh/custom/plugins"
-	
-	
+
+
 	curl -L https://raw.githubusercontent.com/sbugzu/gruvbox-zsh/master/gruvbox.zsh-theme > "/home/${user}/.oh-my-zsh/custom/themes/gruvbox.zsh-theme"
 	git clone https://github.com/zsh-users/zsh-autosuggestions "/home/${user}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
 
@@ -322,7 +279,7 @@ install_packages() {
 	set -e
 
 	#General
-	packages+='intel-ucode pulseaudio alsa-utils alsa-plugins pavucontrol terminator scrot polybar neovim zsh xclip light dunst libinput archlinux-keyring blueman pulseaudio-bluetooth sof-firmware less'
+	packages+='intel-ucode pulseaudio alsa-utils alsa-plugins pavucontrol kitty scrot polybar neovim zsh xclip light dunst libinput archlinux-keyring blueman pulseaudio-bluetooth sof-firmware less'
 
 	#i3
 	packages+=' xorg-server xorg-xrandr xorg-xinit i3-gaps i3status rofi i3lock arandr'
@@ -331,13 +288,13 @@ install_packages() {
 	packages+=' noto-fonts-emoji ttf-dejavu'
 
 
-	yay --noconfirm -S "${packages}"
-	
+	pacman --noconfirm -S "${packages}"
+
 	pulseaudio -D
 }
 
 enable_services() {
-	systemctl start bluetooth     
+	systemctl start bluetooth
  	systemctl enable bluetooth
  }
 
