@@ -235,6 +235,8 @@ set_i3_config() {
 
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/greenclip/greenclip.toml --output  "/home/${user}/.config/greenclip.toml"
+
+    curl -L -o /usr/bin/greenclip https://github.com/erebe/greenclip/releases/download/v4.2/greenclip
 }
 
 add_nvim_config(){
@@ -292,7 +294,6 @@ install_packages() {
    	pacman --noconfirm -S "neovim"
    	pacman --noconfirm -S "zsh"
    	pacman --noconfirm -S "xclip"
-   	pacman --noconfirm -S "light"
    	pacman --noconfirm -S "dunst"
    	pacman --noconfirm -S "libinput"
    	pacman --noconfirm -S "archlinux-keyring"
