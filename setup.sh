@@ -21,7 +21,6 @@ setup() {
 
 	echo "Unmounting filesystem"
 	echo 'Done! Reboot system.'
-
 }
 
 partition_drive() {
@@ -49,29 +48,29 @@ partition_drive() {
 		q
 EOF
 
-local boot_dev="${dev}p1"; shift
-local home_dev="${dev}p2"; shift
+    local boot_dev="${dev}p1"; shift
+    local home_dev="${dev}p2"; shift
 
-cryptsetup --batch-mode luksFormat "$home_dev"
-cryptsetup open "$home_dev" cryptlvm
+    cryptsetup --batch-mode luksFormat "$home_dev"
+    cryptsetup open "$home_dev" cryptlvm
 
-pvcreate /dev/mapper/cryptlvm
-vgcreate Laptop /dev/mapper/cryptlvm
+    pvcreate /dev/mapper/cryptlvm
+    vgcreate Laptop /dev/mapper/cryptlvm
 
-lvcreate -L 32G Laptop -n swap
-lvcreate -L 64G Laptop -n root
-lvcreate -l 100%FREE Laptop -n home
+    lvcreate -L 32G Laptop -n swap
+    lvcreate -L 64G Laptop -n root
+    lvcreate -l 100%FREE Laptop -n home
 
-mkfs.ext4 /dev/Laptop/root
-mkfs.ext4 /dev/Laptop/home
-mkswap /dev/Laptop/swap
-mkfs.fat -F32 "$boot_dev"
+    mkfs.ext4 /dev/Laptop/root
+    mkfs.ext4 /dev/Laptop/home
+    mkswap /dev/Laptop/swap
+    mkfs.fat -F32 "$boot_dev"
 
-mount /dev/Laptop/root /mnt
-mount --mkdir /dev/Laptop/home /mnt/home
-swapon /dev/Laptop/swap
-mount --mkdir "$boot_dev" /mnt/boot
-blkid "$home_dev" -s UUID -o value > /mnt/uuid
+    mount /dev/Laptop/root /mnt
+    mount --mkdir /dev/Laptop/home /mnt/home
+    swapon /dev/Laptop/swap
+    mount --mkdir "$boot_dev" /mnt/boot
+    blkid "$home_dev" -s UUID -o value > /mnt/uuid
 }
 
 install_base() {
@@ -166,7 +165,8 @@ install_yay() {
 }
 
 configure_mkinitcpio() {
-	sed -i 's/HOOKS=(base udev autodetect modconf kms keyboard keymap consolefont block filesystems fsck)/HOOKS=(base udev autodetect modconf kms keyboard keymap consolefont block encrypt lvm2 filesystems fsck)/g' /etc/mkinitcpio.conf
+    sed -i '/^HOOKS=/c\HOOKS=(base udev autodetect modconf kms keyboard keymap consolefont block encrypt lvm2 filesystems fsck)' /etc/mkinitcpio.conf
+
  	mkinitcpio -P
 }
 
