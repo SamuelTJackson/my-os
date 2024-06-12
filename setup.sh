@@ -124,11 +124,10 @@ configure() {
 set_timezone() {
 	ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
  	hwclock --systohc
-  	echo "en_US.UTF-8 UTF-8" >> /etc/locale.get
+  	echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
    	locale-gen
     touch /etc/locale.conf
     echo "LANG=en_US.UTF-8" > /etc/locale.conf
-    pacman -Sy archlinux-keyring
 }
 
 install_sudo() {
