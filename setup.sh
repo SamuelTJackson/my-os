@@ -1,4 +1,6 @@
 #!/bin/bash
+#
+set -e
 
 DRIVE='/dev/nvme0n1'
 HOSTNAME='laptop'
@@ -118,6 +120,10 @@ configure() {
 	add_xinit "$USER_NAME"
 	add_zsh_config "$USER_NAME"
 	setup_touchpad
+
+    add_nvim_config
+    add_gvm
+    add_tpm
 }
 
 set_timezone() {
@@ -183,7 +189,7 @@ install_bootloader() {
 set_i3_config() {
 	local user="$1"; shift
 
-	mkdir -p "/home/${user}/.local/scripts" "/home/${user}/.config/i3" "/home/${user}/.config/dunst" "/home/${user}/.config/i3status" "/home/${user}/.config/polybar" "/home/${user}/.config/kitty" "/home/${user}/.local/share/fonts"  "/home/${user}/.config/tmux"
+	mkdir -p "/home/${user}/.tmux" "/home/${user}/.local/scripts" "/home/${user}/.config/i3" "/home/${user}/.config/dunst" "/home/${user}/.config/i3status" "/home/${user}/.config/polybar" "/home/${user}/.config/kitty" "/home/${user}/.local/share/fonts"  "/home/${user}/.config/tmux"
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/i3/config --output  "/home/${user}/.config/i3/config"
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/i3/background.png --output  "/home/${user}/.config/i3/background.png"
@@ -207,8 +213,7 @@ set_i3_config() {
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/rofi/config.nasi --output  "/home/${user}/.config/polybar/config.nasi"
 
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/kitty/config --output  "/home/${user}/.config/kitty/config"
-
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/kitty/kitty.conf --output  "/home/${user}/.config/kitty/kitty.conf"
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/fonts/3270-Medium%20Nerd%20Font%20Complete%20Mono.ttf --output  "/home/${user}/.local/share/fonts/3270-Medium Nerd Font Complete Mono.ttf"
 
@@ -224,19 +229,31 @@ set_i3_config() {
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/dunst/dunstrc --output  "/home/${user}/.config/dunst/dunstrc"
 
-	chown -R "${user}:${user}" "/home/${user}/.config"
-	chown -R "${user}:${user}" "/home/${user}/.local"
-
-
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/tmux/tmux.conf --output  "/home/${user}/.config/tmux/tmux.conf"
 
-	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/scripts/tmux-sessionizer --output  "/home/${user}/.local/scripts/sessionizer"
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/tmux/tmux-flash.sh --output  "/home/${user}/.config/tmux/tmux-flash.sh"
+	chmod +x  "/home/${user}/.config/tmux/tmux-flash.sh"
+
+	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/scripts/tmux-sessionizer --output  "/home/${user}/.local/scripts/tmux-sessionizer"
 	chmod +x  "/home/${user}/.local/scripts/sessionizer"
 
 
 	curl https://raw.githubusercontent.com/SamuelTJackson/my-os/main/greenclip/greenclip.toml --output  "/home/${user}/.config/greenclip.toml"
 
     curl -L -o /usr/bin/greenclip https://github.com/erebe/greenclip/releases/download/v4.2/greenclip
+
+	chown -R "${user}:${user}" "/home/${user}/.config"
+	chown -R "${user}:${user}" "/home/${user}/.local"
+
+}
+
+add_tpm(){
+    git clone https://github.com/tmux-plugins/tpm "/home/${user}/.tmux/plugins/tpm"
+}
+
+add_gvm() {
+   	pacman --noconfirm -S "bison"
+    bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
 }
 
 add_nvim_config(){
@@ -311,6 +328,10 @@ install_packages() {
    	pacman --noconfirm -S "i3-gaps"
    	pacman --noconfirm -S "noto-fonts-emoji"
    	pacman --noconfirm -S "ttf-dejavu"
+   	pacman --noconfirm -S "unzip"
+   	pacman --noconfirm -S "npm"
+   	pacman --noconfirm -S "cargo"
+   	pacman --noconfirm -S "fzf"
 
 	pulseaudio -D
 }

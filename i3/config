@@ -8,6 +8,10 @@
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc
 exec_always --no-startup-id /usr/bin/blueman-applet
+exec_always --no-startup-id /usr/bin/greenclip daemon
+
+exec_always --no-startup-id feh --bg-scale /home/samuel/Downloads/arch-wallpaper.png
+
 
 bindsym $mod+c move absolute position center
 bindsym XF86MonBrightnessUp exec light -A 5
@@ -44,7 +48,6 @@ font pango:DejaVu Sans Mono 10
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 # exec --no-startup-id nm-applet
-
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +1% && $refresh_i3status
@@ -53,14 +56,14 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 bindsym $mod+Ctrl+a exec pavucontrol
-bindsym $mod+Ctrl+r exec --no-startup-id urxvt -e ranger
 
+bindsym $mod+o exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+F10 exec i3-sensible-terminal
+bindsym $mod+F10 exec i3-sensible-terminal -e tmux
 
 # kill focused window
 bindsym $mod+q kill
@@ -123,12 +126,12 @@ bindsym $mod+space focus mode_toggle
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1 communication"
-set $ws2 "2 terminal"
+set $ws1 "1 web_private"
+set $ws2 "2 web_work"
 set $ws3 "3 web"
 set $ws4 "4 coding"
-set $ws5 "5 music"
-set $ws6 "6"
+set $ws5 "5 database"
+set $ws6 "6 painting"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
@@ -158,10 +161,6 @@ bindsym $mod+Shift+F8 move container to workspace number $ws8
 bindsym $mod+Shift+F9 move container to workspace number $ws9
 bindsym $mod+Shift+F0 move container to workspace number $ws10
 
-# workspace specific settings
-assign [class="Google-chrome"] $ws3
-assign [class="Xfce4-terminal"] $ws2
-assign [class="jetbrains-idea"] $ws4
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -242,10 +241,16 @@ bindsym Ctrl+Print exec scrot -u -s 'screenshot_%d-%m-%Y_%H:%M:%S.png' -e 'mkdir
 # 	font pango:monospace 13
 # }
 
-bindsym $mod+Shift+Return exec terminator -e 'ranger' --role=floating
 for_window [window_role="^floating$"] floating enable
 #floating_minimum_size 1400 x 700
 for_window [window_role="^floating$"] border pixel 3
 for_window [class="Pavucontrol" instance="pavucontrol"] floating enable, resize set 800px 500px, move position center
 for_window [class="Blueman-manager" instance="blueman-manager"] floating enable, resize set 800px 500px, move position center
 for_window [class="dde-file-manager" instance="dde-file-manager"] floating enable, resize set 1200px 500px, move position center
+for_window [class="Arandr" instance="arandr"] floating enable, resize set 1920 400px, move position center
+
+exec --no-startup-id i3-msg sh -c 'sleep 1; i3-msg "workspace 1:web_private; exec /usr/bin/google-chrome-stable --profile-directory=Default"'
+exec --no-startup-id i3-msg sh -c 'sleep 2; i3-msg "workspace 2:web_work; exec /usr/bin/google-chrome-stable --profile-directory=Profile\ 3"'
+exec --no-startup-id i3-msg sh -c 'sleep 3; i3-msg "workspace 4:coding; exec /usr/bin/kitty -e tmux"'
+exec --no-startup-id i3-msg sh -c 'sleep 4; i3-msg "workspace 5:database; exec /usr/bin/datagrip"'
+exec --no-startup-id i3-msg sh -c 'sleep 5; i3-msg "workspace 6:painting; exec /usr/bin/pinta"'
