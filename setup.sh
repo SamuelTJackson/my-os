@@ -166,8 +166,7 @@ install_yay() {
 
 configure_mkinitcpio() {
     sed -i '/^HOOKS=/c\HOOKS=(base udev autodetect modconf kms keyboard keymap consolefont block encrypt lvm2 filesystems fsck)' /etc/mkinitcpio.conf
-
- 	mkinitcpio -P
+    mkinitcpio -P
 }
 
 install_bootloader() {
