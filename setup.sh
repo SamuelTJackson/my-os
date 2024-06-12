@@ -170,12 +170,14 @@ configure_mkinitcpio() {
 }
 
 install_bootloader() {
-	pacman --noconfirm -S grub efibootmgr
-	grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
- 	uuid=$(cat /uuid)
-  	rm /uuid
-   	sed -i 's#GRUB_CMDLINE_LINUX=""#GRUB_CMDLINE_LINUX="cryptdevice=UUID='"$uuid"':cryptlvm root=/dev/Laptop/root"#g' /etc/default/grub
-	grub-mkconfig -o /boot/grub/grub.cfg
+    pacman --noconfirm -S grub efibootmgr
+    grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+
+    uuid=$(cat /uuid)
+
+    sed -i 's#GRUB_CMDLINE_LINUX=""#GRUB_CMDLINE_LINUX="cryptdevice=UUID='"$uuid"':cryptlvm root=/dev/Laptop/root"#g' /etc/default/grub
+
+    grub-mkconfig -o /boot/grub/grub.cfg
 }
 
 set_i3_config() {
